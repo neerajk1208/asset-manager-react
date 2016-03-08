@@ -10,12 +10,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-dom.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
-
+  
 </head>
   </head>
   <body>
   </body>
   <script type="text/jsx">
+
+
+
       var AssetManager = React.createClass({
         getInitialState: function() {
           return {
@@ -126,14 +129,17 @@
           return (
             <div className="assetManager">
               <h1> Asset Manager </h1>
+              <p> What does your risk profile look like? </p>
+              <span> {this.state.risk}</span>
               <input type="range" name='risk' min='0' max='10' onChange={this.handleChange} />
-              <p> {this.state.risk}</p>
               <output for="risk" onforminput="value = risk.valueAsNumber;"></output>
+              <div>
               <span className="testing"> Bonds: {this.props.possibilities[this.state.risk][0]}% </span>
               <span> Stocks: {this.props.possibilities[this.state.risk][1]}% </span>
               <span> ETFs: {this.props.possibilities[this.state.risk][2]}% </span>
               <span> Real Estate: {this.props.possibilities[this.state.risk][3]}% </span>
               <span> Cash: {this.props.possibilities[this.state.risk][4]}% </span>
+              </div>
               <h6> <i> Let us help you manage your portfolio </i> </h6>
               <form onSubmit={this.handleSubmit}>
                 <input type="text" onChange={this.handleUpdate.bind(this, 'actualBonds')} placeholder="Bonds"/>
@@ -143,9 +149,6 @@
                 <input type="text"  onChange={this.handleUpdate.bind(this, 'actualCash')} placeholder="Cash"/>
                 <input type="submit"> Hello </input>
                 </form>
-              <Slider {...this.props} />
-              <Chart  />
-              <Portfolio />
               <ListOfInsights {...this.props} data={this.state.insights} />
             </div>
             );
