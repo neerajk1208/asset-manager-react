@@ -26,13 +26,11 @@
               realEstate: 0, 
               cash: 90
             }, 
-            actual: {
-              bonds: 0, 
-              stocks: 0, 
-              etfs: 0, 
-              realEstate: 0, 
-              cash: 0
-            }
+            actualBonds: 0, 
+            actualStocks: 0, 
+            actualEtfs: 0, 
+            actualRealEstate: 0, 
+            actualCash: 0
           }
         }, 
         handleChange: function(e) {
@@ -59,55 +57,67 @@
           e.preventDefault()
           console.log("what does the state look like", this.state);
 
-
+          var actualPercents = {
+          }
           var totalAmount = 0;
-          for (var key in $scope.state) {
-            totalAmount += $scope.user[key];
+          for (var key in this.state) {
+            if (key !== 'risk' && key !== 'expected') {
+              totalAmount += this.state[key];
+            }
           }
-          for (var key in $scope.user) {
-            $scope.userBreakdown[key] = Math.round($scope.user[key]/totalAmount * 100);
+
+          for (var key in this.state) {
+            if (key !== 'risk' && key !== 'expected') {
+              actualPercents[key] = Math.round(this.state[key]/totalAmount * 100);
+              console.log('hello');
+            }
           }
-          $scope.insights = [];
+
+          console.log('total amount is', totalAmount);
+          console.log('here is the actual percent breakdown', actualPercents);
+          var insights = [];
           
-          if ($scope.userBreakdown.bonds > $scope.data[0] + 5) {
-            var diff = $scope.userBreakdown.bonds - $scope.data[0];
-            $scope.insights.push("Decrease your bonds by " + diff + "%.");
-          } else if ($scope.userBreakdown.bonds < $scope.data[0] - 5 ) {
-            var diff = $scope.data[0] - $scope.userBreakdown.bonds;
-            $scope.insights.push("Increase your bonds by " + diff + "%.");
+          if (actualPercents.actualBonds > this.state.expected.bonds + 5) {
+            var diff = actualPercents.actualBonds - this.state.expected.bonds;
+            insights.push("Decrease your bonds by " + diff + "%.");
+          } else if (actualPercents.actualBonds < this.state.expected.bonds - 5 ) {
+            var diff = this.state.expected.bonds - actualPercents.actualBonds;
+            insights.push("Increase your bonds by " + diff + "%.");
           }
 
-          if ($scope.userBreakdown.stocks > $scope.data[1] + 5) {
-            var diff = $scope.userBreakdown.stocks - $scope.data[1];
-            $scope.insights.push("Decrease your stocks by " + diff + "%.");
-          } else if ($scope.userBreakdown.stocks < $scope.data[1] - 5 ) {
-            var diff = $scope.data[1] - $scope.userBreakdown.stocks;
-            $scope.insights.push("Increase your stocks by " + diff + "%.");
+          if (actualPercents.actualStocks > this.state.expected.stocks + 5) {
+            var diff = actualPercents.actualStocks - this.state.expected.stocks;
+            insights.push("Decrease your stocks by " + diff + "%.");
+          } else if (actualPercents.actualStocks < this.state.expected.stocks - 5 ) {
+            var diff = this.state.expected.stocks - actualPercents.actualStocks;
+            insights.push("Increase your stocks by " + diff + "%.");
           }
 
-          if ($scope.userBreakdown.etfs > $scope.data[2] + 5) {
-            var diff = $scope.userBreakdown.etfs - $scope.data[2];
-            $scope.insights.push("Decrease your etfs by " + diff + "%.");
-          } else if ($scope.userBreakdown.etfs < $scope.data[2] - 5 ) {
-            var diff = $scope.data[2] - $scope.userBreakdown.etfs;
-            $scope.insights.push("Increase your etfs by " + diff + "%.");
+          if (actualPercents.actualEtfs > this.state.expected.etfs + 5) {
+            var diff = actualPercents.actualEtfs - this.state.expected.etfs;
+            insights.push("Decrease your etfs by " + diff + "%.");
+          } else if (actualPercents.actualEtfs < this.state.expected.etfs - 5 ) {
+            var diff = this.state.expected.etfs - actualPercents.actualEtfs;
+            insights.push("Increase your etfs by " + diff + "%.");
           }
 
-          if ($scope.userBreakdown.realEstate > $scope.data[3] + 5) {
-            var diff = $scope.userBreakdown.realEstate - $scope.data[3];
-            $scope.insights.push("Decrease your real estate by " + diff + "%.");
-          } else if ($scope.userBreakdown.realEstate < $scope.data[3] - 5 ) {
-            var diff = $scope.data[3] - $scope.userBreakdown.realEstate;
-            $scope.insights.push("Increase your real estate by " + diff + "%.");
+          if (actualPercents.actualRealEstate > this.state.expected.realEstate + 5) {
+            var diff = actualPercents.actualStocks - this.state.expected.realEstate;
+            insights.push("Decrease your real estate by " + diff + "%.");
+          } else if (actualPercents.actualRealEstate < this.state.expected.realEstate - 5 ) {
+            var diff = this.state.expected.realEstate - actualPercents.actualRealEstate;
+            insights.push("Increase your real estate by " + diff + "%.");
           }
 
-          if ($scope.userBreakdown.cash > $scope.data[4] + 5) {
-            var diff = $scope.userBreakdown.cash - $scope.data[4];
-            $scope.insights.push("Decrease your cash by " + diff + "%.");
-          } else if ($scope.userBreakdown.cash < $scope.data[4] - 5 ) {
-            var diff = $scope.data[4] - $scope.userBreakdown.cash;
-            $scope.insights.push("Increase your cash by " + diff + "%.");
+          if (actualPercents.actualCash > this.state.expected.cash + 5) {
+            var diff = actualPercents.actualCash - this.state.expected.cash;
+            insights.push("Decrease your cash by " + diff + "%.");
+          } else if (actualPercents.actualCash < this.state.expected.cash - 5 ) {
+            var diff = this.state.expected.cash - actualPercents.actualCash;
+            insights.push("Increase your cash by " + diff + "%.");
           }
+
+          console.log("here are my insights", insights);
 
         },
         render: function() {
