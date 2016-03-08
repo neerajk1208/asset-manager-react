@@ -48,6 +48,62 @@
           this.setState(newState)
           console.log(this.state)
         },
+
+        handleSubmit: function(e) {
+          e.preventDefault()
+          console.log("what does the state look like", this.state);
+
+
+          var totalAmount = 0;
+          for (var key in $scope.state) {
+            totalAmount += $scope.user[key];
+          }
+          for (var key in $scope.user) {
+            $scope.userBreakdown[key] = Math.round($scope.user[key]/totalAmount * 100);
+          }
+          $scope.insights = [];
+          
+          if ($scope.userBreakdown.bonds > $scope.data[0] + 5) {
+            var diff = $scope.userBreakdown.bonds - $scope.data[0];
+            $scope.insights.push("Decrease your bonds by " + diff + "%.");
+          } else if ($scope.userBreakdown.bonds < $scope.data[0] - 5 ) {
+            var diff = $scope.data[0] - $scope.userBreakdown.bonds;
+            $scope.insights.push("Increase your bonds by " + diff + "%.");
+          }
+
+          if ($scope.userBreakdown.stocks > $scope.data[1] + 5) {
+            var diff = $scope.userBreakdown.stocks - $scope.data[1];
+            $scope.insights.push("Decrease your stocks by " + diff + "%.");
+          } else if ($scope.userBreakdown.stocks < $scope.data[1] - 5 ) {
+            var diff = $scope.data[1] - $scope.userBreakdown.stocks;
+            $scope.insights.push("Increase your stocks by " + diff + "%.");
+          }
+
+          if ($scope.userBreakdown.etfs > $scope.data[2] + 5) {
+            var diff = $scope.userBreakdown.etfs - $scope.data[2];
+            $scope.insights.push("Decrease your etfs by " + diff + "%.");
+          } else if ($scope.userBreakdown.etfs < $scope.data[2] - 5 ) {
+            var diff = $scope.data[2] - $scope.userBreakdown.etfs;
+            $scope.insights.push("Increase your etfs by " + diff + "%.");
+          }
+
+          if ($scope.userBreakdown.realEstate > $scope.data[3] + 5) {
+            var diff = $scope.userBreakdown.realEstate - $scope.data[3];
+            $scope.insights.push("Decrease your real estate by " + diff + "%.");
+          } else if ($scope.userBreakdown.realEstate < $scope.data[3] - 5 ) {
+            var diff = $scope.data[3] - $scope.userBreakdown.realEstate;
+            $scope.insights.push("Increase your real estate by " + diff + "%.");
+          }
+
+          if ($scope.userBreakdown.cash > $scope.data[4] + 5) {
+            var diff = $scope.userBreakdown.cash - $scope.data[4];
+            $scope.insights.push("Decrease your cash by " + diff + "%.");
+          } else if ($scope.userBreakdown.cash < $scope.data[4] - 5 ) {
+            var diff = $scope.data[4] - $scope.userBreakdown.cash;
+            $scope.insights.push("Increase your cash by " + diff + "%.");
+          }
+
+        },
         render: function() {
           return (
             <div className="assetManager">
@@ -59,15 +115,18 @@
               <span> Real Estate: {this.props.possibilities[this.state.risk][3]}% </span>
               <span> Cash: {this.props.possibilities[this.state.risk][4]}% </span>
               <h6> <i> Let us help you manage your portfolio </i> </h6>
-              <input type="text" onChange={this.handleUpdate.bind(this, 'actualBonds')} placeholder="Bonds"/>
-              <input type="text" onChange={this.handleUpdate.bind(this, 'actualStocks')} placeholder="Stocks"/>
-              <input type="text" onChange={this.handleUpdate.bind(this, 'actualEtfs')} placeholder="ETFs"/>
-              <input type="text"  onChange={this.handleUpdate.bind(this, 'actualRealEstate')} placeholder="Real Estate"/>
-              <input type="text"  onChange={this.handleUpdate.bind(this, 'actualCash')} placeholder="Cash"/>
+              <form onSubmit={this.handleSubmit}>
+                <input type="text" onChange={this.handleUpdate.bind(this, 'actualBonds')} placeholder="Bonds"/>
+                <input type="text" onChange={this.handleUpdate.bind(this, 'actualStocks')} placeholder="Stocks"/>
+                <input type="text" onChange={this.handleUpdate.bind(this, 'actualEtfs')} placeholder="ETFs"/>
+                <input type="text"  onChange={this.handleUpdate.bind(this, 'actualRealEstate')} placeholder="Real Estate"/>
+                <input type="text"  onChange={this.handleUpdate.bind(this, 'actualCash')} placeholder="Cash"/>
+                <input type="submit"> Hello </input>
+                </form>
               <Slider {...this.props} />
               <Chart  />
               <Portfolio />
-              <ListOfInsights />
+              <ListOfInsights {...this.props} />
             </div>
             );
         }
