@@ -5,6 +5,7 @@
     <title>React Tutorial</title>
     <!-- Not present in the tutorial. Just for basic styling. -->
     <link rel="stylesheet" href="main.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 
    <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react.js"></script>
@@ -128,9 +129,12 @@
         render: function() {
           return (
             <div className="assetManager">
-              <h1> Asset Manager </h1>
+              <h1 className="jumbotron"> Asset Manager </h1>
+
               <p> What does your risk profile look like? </p>
-              <span> {this.state.risk}</span>
+              <button className="btn btn-primary" type="button">
+                Risk <span className="badge">{this.state.risk}</span>
+              </button>
               <input type="range" name='risk' min='0' max='10' onChange={this.handleChange} />
               <output for="risk" onforminput="value = risk.valueAsNumber;"></output>
               <div>
@@ -140,14 +144,13 @@
               <span> Real Estate: {this.props.possibilities[this.state.risk][3]}% </span>
               <span> Cash: {this.props.possibilities[this.state.risk][4]}% </span>
               </div>
-              <h6> <i> Let us help you manage your portfolio </i> </h6>
+              <h6> <i> What does your current portfolio look like? Please provide $ value for all categories. </i> </h6>
               <form onSubmit={this.handleSubmit}>
                 <input type="text" onChange={this.handleUpdate.bind(this, 'actualBonds')} placeholder="Bonds"/>
                 <input type="text" onChange={this.handleUpdate.bind(this, 'actualStocks')} placeholder="Stocks"/>
                 <input type="text" onChange={this.handleUpdate.bind(this, 'actualEtfs')} placeholder="ETFs"/>
                 <input type="text"  onChange={this.handleUpdate.bind(this, 'actualRealEstate')} placeholder="Real Estate"/>
                 <input type="text"  onChange={this.handleUpdate.bind(this, 'actualCash')} placeholder="Cash"/>
-                <input type="submit"> Hello </input>
                 </form>
               <ListOfInsights {...this.props} data={this.state.insights} />
             </div>
@@ -199,13 +202,16 @@
           console.log('here are the insights', this.props.data);
           var list = this.props.data.map(function(insight) {
             return (
-              <p> {insight} </p>
+              <li className="list-group-item">{insight}</li>
             )
           });
 
           return (
-            <div className="listOfInsights">
-              {list}
+            <div className="panel panel-default">
+              <div className="panel-heading">Recommendations</div>
+              <ul className="list-group">
+                {list}
+              </ul>
             </div>
           );
         }
