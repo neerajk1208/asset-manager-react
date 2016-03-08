@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>React Tutorial</title>
+    <!-- Not present in the tutorial. Just for basic styling. -->
+    <link rel="stylesheet" href="main.css" />
+
+   <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-dom.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+</head>
+  </head>
+  <body>
+  </body>
+  <script type="text/jsx">
+      var AssetManager = React.createClass({
+        getInitialState: function() {
+          return {
+            risk: 1, 
+            expectedBonds: 10, 
+            expectedStocks: 0, 
+            expectedEtfs: 0, 
+            expectedRealEstate: 0, 
+            expectedCash: 90,
+            actualBonds: 0, 
+            actualStocks: 0, 
+            actualEtfs: 0, 
+            actualRealEstate: 0, 
+            actualCash: 0
+          }
+        }, 
+        handleChange: function(e) {
+          this.setState({
+            risk: e.target.value, 
+            expectedBonds: this.props.possibilities[e.target.value][0],
+            expectedStocks: this.props.possibilities[e.target.value][1], 
+            expectedEtfs: this.props.possibilities[e.target.value][2], 
+            expectedRealEstate: this.props.possibilities[e.target.value][3], 
+            expectedCash: this.props.possibilities[e.target.value][4] 
+          })
+        }, 
+        handleUpdate: function(name, e) {
+          console.log('here is name', name, 'here is e', e.target.value)
+          var newState = {};
+          newState[name] = Number(e.target.value);
+          this.setState(newState)
+          console.log(this.state)
+        },
+        render: function() {
+          return (
+            <div className="assetManager">
+              <h1> Asset Manager </h1>
+              <input type="text" onChange={this.handleChange}/>
+              <span className="testing"> Bonds: {this.props.possibilities[this.state.risk][0]}% </span>
+              <span> Stocks: {this.props.possibilities[this.state.risk][1]}% </span>
+              <span> ETFs: {this.props.possibilities[this.state.risk][2]}% </span>
+              <span> Real Estate: {this.props.possibilities[this.state.risk][3]}% </span>
+              <span> Cash: {this.props.possibilities[this.state.risk][4]}% </span>
+              <h6> <i> Let us help you manage your portfolio </i> </h6>
+              <input type="text" onChange={this.handleUpdate.bind(this, 'actualBonds')} placeholder="Bonds"/>
+              <input type="text" onChange={this.handleUpdate.bind(this, 'actualStocks')} placeholder="Stocks"/>
+              <input type="text" onChange={this.handleUpdate.bind(this, 'actualEtfs')} placeholder="ETFs"/>
+              <input type="text"  onChange={this.handleUpdate.bind(this, 'actualRealEstate')} placeholder="Real Estate"/>
+              <input type="text"  onChange={this.handleUpdate.bind(this, 'actualCash')} placeholder="Cash"/>
+              <Slider {...this.props} />
+              <Chart  />
+              <Portfolio />
+              <ListOfInsights />
+            </div>
+            );
+        }
+      });
+
+      var Slider = React.createClass({
+        render: function() {
+          console.log("what is the state now", this.state)
+          return (
+            <div className="slider">
+              Here is the slider
+              <input type="text" placeholder="risk number"/>
+              <input type="submit"> Hello </input>
+            </div>
+          );
+        }
+      });
+
+      var Chart = React.createClass({
+        render: function() {
+          return (
+            <div className="chart">
+              Here is the chart!
+              Here is the set of associated data
+            </div>
+          );
+        }
+      });
+
+      var Portfolio = React.createClass({
+        render: function() {
+          return (
+            <div className="portfolio">
+              Please fill in your portfolio inputs
+              <input type="text" placeholder="Bonds"/>
+              <input type="text" placeholder="Stocks"/>
+              <input type="text" placeholder="ETFs"/>
+              <input type="text" placeholder="Real Estate"/>
+              <input type="text" placeholder="Cash"/>
+            </div>
+          );
+        }
+      });
+
+      var ListOfInsights = React.createClass({
+        render: function() {
+          return (
+            <div className="listOfInsights">
+              Here is a list of insights 
+            </div>
+          );
+        }
+      });
+      
+      var options = {
+        possibilities: {
+          1: [10, 0, 0, 0, 90],
+        2: [10, 10, 0, 0, 80], 
+        3: [10, 10, 10, 0, 70], 
+        4: [20, 10, 10, 0, 60], 
+        5: [15, 15, 10, 10, 50], 
+        6: [15, 15, 15, 15, 60], 
+        7: [10, 20, 20, 20, 30], 
+        8: [5, 30, 10, 30, 20], 
+        9: [0, 40, 5, 35, 20], 
+        10: [5, 40, 5, 40, 10]
+        }
+      }
+      var element = React.createElement(AssetManager, options);
+
+      ReactDOM.render(element, document.body);
+    </script>
+</html>
