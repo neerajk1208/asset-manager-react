@@ -10,6 +10,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-dom.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+
 </head>
   </head>
   <body>
@@ -125,7 +126,9 @@
           return (
             <div className="assetManager">
               <h1> Asset Manager </h1>
-              <input type="text" onChange={this.handleChange}/>
+              <input type="range" name='risk' min='0' max='10' onChange={this.handleChange} />
+              <p> {this.state.risk}</p>
+              <output for="risk" onforminput="value = risk.valueAsNumber;"></output>
               <span className="testing"> Bonds: {this.props.possibilities[this.state.risk][0]}% </span>
               <span> Stocks: {this.props.possibilities[this.state.risk][1]}% </span>
               <span> ETFs: {this.props.possibilities[this.state.risk][2]}% </span>
