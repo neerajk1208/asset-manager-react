@@ -19,26 +19,32 @@
         getInitialState: function() {
           return {
             risk: 1, 
-            expectedBonds: 10, 
-            expectedStocks: 0, 
-            expectedEtfs: 0, 
-            expectedRealEstate: 0, 
-            expectedCash: 90,
-            actualBonds: 0, 
-            actualStocks: 0, 
-            actualEtfs: 0, 
-            actualRealEstate: 0, 
-            actualCash: 0
+            expected: {
+              bonds: 10, 
+              stocks: 0, 
+              etfs: 0, 
+              realEstate: 0, 
+              cash: 90
+            }, 
+            actual: {
+              bonds: 0, 
+              stocks: 0, 
+              etfs: 0, 
+              realEstate: 0, 
+              cash: 0
+            }
           }
         }, 
         handleChange: function(e) {
           this.setState({
             risk: e.target.value, 
-            expectedBonds: this.props.possibilities[e.target.value][0],
-            expectedStocks: this.props.possibilities[e.target.value][1], 
-            expectedEtfs: this.props.possibilities[e.target.value][2], 
-            expectedRealEstate: this.props.possibilities[e.target.value][3], 
-            expectedCash: this.props.possibilities[e.target.value][4] 
+            expected: {
+              bonds: this.props.possibilities[e.target.value][0],
+              stocks: this.props.possibilities[e.target.value][1],
+              etfs: this.props.possibilities[e.target.value][2],
+              realEstate: this.props.possibilities[e.target.value][3],
+              cash: this.props.possibilities[e.target.value][4]
+            }
           })
         }, 
         handleUpdate: function(name, e) {
