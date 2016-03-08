@@ -30,7 +30,8 @@
             actualStocks: 0, 
             actualEtfs: 0, 
             actualRealEstate: 0, 
-            actualCash: 0
+            actualCash: 0, 
+            insights: []
           }
         }, 
         handleChange: function(e) {
@@ -55,26 +56,22 @@
 
         handleSubmit: function(e) {
           e.preventDefault()
-          console.log("what does the state look like", this.state);
 
           var actualPercents = {
           }
           var totalAmount = 0;
           for (var key in this.state) {
-            if (key !== 'risk' && key !== 'expected') {
+            if (key !== 'risk' && key !== 'expected' && key !== 'insights') {
               totalAmount += this.state[key];
             }
           }
 
           for (var key in this.state) {
-            if (key !== 'risk' && key !== 'expected') {
+            if (key !== 'risk' && key !== 'expected' && key !== 'insights') {
               actualPercents[key] = Math.round(this.state[key]/totalAmount * 100);
               console.log('hello');
             }
           }
-
-          console.log('total amount is', totalAmount);
-          console.log('here is the actual percent breakdown', actualPercents);
           var insights = [];
           
           if (actualPercents.actualBonds > this.state.expected.bonds + 5) {
@@ -117,8 +114,12 @@
             insights.push("Increase your cash by " + diff + "%.");
           }
 
-          console.log("here are my insights", insights);
+          console.log('here are the insights', insights);
+          this.setState({
+            insights: insights
+          })
 
+          console.log('what is the state obj', this.state);
         },
         render: function() {
           return (
@@ -142,7 +143,7 @@
               <Slider {...this.props} />
               <Chart  />
               <Portfolio />
-              <ListOfInsights {...this.props} />
+              <ListOfInsights {...this.props} data={this.state.insights} />
             </div>
             );
         }
@@ -189,9 +190,16 @@
 
       var ListOfInsights = React.createClass({
         render: function() {
+          console.log('here are the insights', this.props.data);
+          var list = this.props.data.map(function(insight) {
+            return (
+              <p> {insight} </p>
+            )
+          });
+
           return (
             <div className="listOfInsights">
-              Here is a list of insights 
+              {list}
             </div>
           );
         }
@@ -209,7 +217,8 @@
         8: [5, 30, 10, 30, 20], 
         9: [0, 40, 5, 35, 20], 
         10: [5, 40, 5, 40, 10]
-        }
+        },
+        insights: []
       }
       var element = React.createElement(AssetManager, options);
 
